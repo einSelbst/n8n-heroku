@@ -86,6 +86,7 @@ set config vars(optional)
     heroku config:set N8N_BASIC_AUTH_ACTIVE=true
     heroku config:set N8N_BASIC_AUTH_USER=SET_USERNAME
     heroku config:set N8N_BASIC_AUTH_PASSWORD=SET_PASSWORD
+    heroku config:set N8N_VERSION=0.70.0
 
 Login the container
 
