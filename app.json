@@ -27,6 +27,10 @@
       "N8N_BASIC_AUTH_PASSWORD": {
         "description": "Basic Authentication Password to secure n8n.",
         "value": "pass"
+      },
+      "N8N_HOST": {
+        "description": "the name of your APP. Use the App name on this screen",
+        "value": "YOUR APP NAME"
       }
     },
     "formation": {
