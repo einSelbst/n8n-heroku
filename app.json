@@ -34,11 +34,11 @@
       },
       "WEBHOOK_TUNNEL_URL": {
         "description": "to correctly use webhooks, replace YOUR_APP_NAME below",
-        "value": "https://YOUR_APP_NAME.herokuapp.com"
+        "value": "https://YOUR_APP_NAME.herokuapp.com/"
       },
       "VUE_APP_URL_BASE_API": {
         "description": "communication between the front end and api, replace YOUR_APP_NAME below ",
-        "value": "https://YOUR_APP_NAME.herokuapp.com"
+        "value": "https://YOUR_APP_NAME.herokuapp.com/"
       },
       "N8N_ENCRYPTION_KEY": {
         "description": "Specify a random string. When Heroku free plans timeout, the encryption key can cause issues with credentials. Keep this randomstring or use another random string ",
