@@ -8,7 +8,7 @@ Changes:
 
 ## Steps
 
-1. Open up a free account with https://heroku.com and click the deploy button below.
+1. Open up a free account with https://heroku.com and click the deploy button below - please be sure to fill out the config variables correctly before you deploy, instructions will be in the Heroku interface.
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/dsottimano/n8n-heroku)
 
