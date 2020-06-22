@@ -12,15 +12,15 @@ Changes:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/dsottimano/n8n-heroku)
 
-2. Get a PageSpeed Insights API key
+2. Get a [PageSpeed Insights API key](https://developers.google.com/speed/docs/insights/v5/get-started)
 
-3. Set up Stitchdata.com with Bigquery and a Webhook integration. You'll need your webhook URL
+3. Set up Stitchdata.com with Bigquery and a Webhook integration. You'll need your [webhook URL](https://www.stitchdata.com/)
 
 4. Copy the code from [this page](https://raw.githubusercontent.com/dsottimano/n8n-heroku/master/pagespeed-flow) to your clipboard, login to your new Heroku n8n app and paste it into a workflow. Next, add in your PageSpeed API Key and Stitchdata webhook URL
 
 5. Save the workflow and set it to active (top right of the workflow)
 
-6. Create a new workflow with a webhook trigger, get the webhook URL and create a cron job to ping it every 15 minutes to prevent the Heroku hobby app from sleeping.
+6. Create a new workflow with a webhook trigger, get the webhook URL and create a [cron job](https://cron-job.org/en/) to ping it every 15 minutes to prevent the Heroku hobby app from sleeping.
 
 
 ### Sources
