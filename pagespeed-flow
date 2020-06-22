@@ -1,0 +1,259 @@
+{
+  "name": "lighthouse",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        40,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "const waitTimeSeconds = 3;\n\nreturn new Promise((resolve) => {\n  setTimeout(() => {\n    resolve(items);\n  }, waitTimeSeconds * 1000);\n});\n\n"
+      },
+      "name": "Wait",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        920,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "\n\nlet resultArray = []\nfor (let i = 0; i < items.length; i++) {\nif (items[i].json.error) {\nresultArray.push({json: {error: true}})\ncontinue;\n}\n\n\nlet lighthouse = items[i].json.data.lighthouseResult;\n  let lighthouseMetrics = {\n    'LH_Device': lighthouse.configSettings.emulatedFormFactor,\n    'LH_Requested_URL': lighthouse.requestedUrl,\n    'LH_Final_URL': lighthouse.finalUrl,\n    'LH_Overall_Performance_Score': lighthouse.categories.performance.score,\n    'LH_Speed_Index': lighthouse.audits['speed-index'].numericValue,\n    'LH_Server_Response_Time': lighthouse.audits['server-response-time'].numericValue,\n    'LH_First_Contentful_Paint': lighthouse.audits['first-contentful-paint'].numericValue,\n    'LH_First_Meaningful_Paint': lighthouse.audits['first-meaningful-paint'].numericValue,\n    'LH_Largest_Contentful_Paint': lighthouse.audits['largest-contentful-paint'].numericValue,\n    'LH_Largest_Contentful_Paint' : lighthouse.audits['cumulative-layout-shift'].numericValue,\n    'LH_Time_To_Interactive': lighthouse.audits['interactive'].numericValue,\n    'LH_First_CPU_Idle': lighthouse.audits['first-cpu-idle'].numericValue,\n    'LH_Estimated_Input_Latency': lighthouse.audits['estimated-input-latency'].numericValue,\n    'LH_Total_Blocking_Time': lighthouse.audits['total-blocking-time'].numericValue\n  };\n\nresultArray.push({json: lighthouseMetrics})\n\n}\n\n\n\nreturn resultArray;\n\n"
+      },
+      "name": "Set Lighthouse metrics",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1350,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "\nconst data = []\n    for (const u of items[0].json.reqs) {\n        data.push({\n        \tjson: {\n    \t\t\turl: u.url,\n     \t\t    strategy : u.strategy\n      \t\t}\n    \t})\n    }\n    return data;\n\n\n\n"
+      },
+      "name": "Structure data for looping",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        510,
+        430
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "let urls = `\nhttps://example.com\n`\nlet splitUrls = urls.split('\\n').filter(Boolean)\nlet resultArray = []\nsplitUrls.forEach(u=> {\nresultArray.push({\"url\": u, \"strategy\" : \"mobile\"})\nresultArray.push({\"url\": u, \"strategy\" : \"desktop\"})\n})\n\n\n//let returnObject = \n//returnObject[0].json.requests =resultArray\nreturn [\n    {\n      json: {\n        reqs: resultArray\n      }\n    }\n]\n\n\n\n\n"
+      },
+      "name": "Enter urls in urls variable",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        290,
+        430
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "name": "SplitInBatches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 1,
+      "position": [
+        720,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": true,
+              "value2": "={{$node[\"SplitInBatches\"].context[\"noItemsLeft\"]}}"
+            }
+          ]
+        }
+      },
+      "name": "IF1",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1600,
+        720
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "STITCH WEBHOOK URL HERE",
+        "responseFormat": "string",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersJson": "={{$node[\"Set Lighthouse metrics\"].json}}"
+      },
+      "name": "send to stitch",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=",
+        "responseFormat": "string",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "key",
+              "value": "PAGESPEED API KEY HERE"
+            },
+            {
+              "name": "=url",
+              "value": "={{$node[\"Wait\"].json[\"url\"]}}"
+            },
+            {
+              "name": "strategy",
+              "value": "={{$node[\"Wait\"].json[\"strategy\"]}}"
+            }
+          ]
+        }
+      },
+      "name": "Google Pagespeed API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        420
+      ],
+      "alwaysOutputData": true,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {},
+      "name": "Finish",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1840,
+        720
+      ]
+    }
+  ],
+  "connections": {
+    "Set Lighthouse metrics": {
+      "main": [
+        [
+          {
+            "node": "IF1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "send to stitch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enter urls in urls variable": {
+      "main": [
+        [
+          {
+            "node": "Structure data for looping",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Enter urls in urls variable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structure data for looping": {
+      "main": [
+        [
+          {
+            "node": "SplitInBatches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Google Pagespeed API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SplitInBatches": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF1": {
+      "main": [
+        [
+          {
+            "node": "Finish",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "SplitInBatches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Pagespeed API": {
+      "main": [
+        [
+          {
+            "node": "Set Lighthouse metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "id": "1"
+}
