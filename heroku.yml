@@ -1,6 +1,6 @@
 setup:
     addons:
-      - plan: heroku-mongodb
+      - plan: mongolab
         as: DATABASE
 
     config:
