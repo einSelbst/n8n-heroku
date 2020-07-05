@@ -49,12 +49,12 @@
     "formation": {
       "web": {
         "quantity": 1,
-        "size": "hobby"
+        "size": "standard"
       }
     },
     "addons": [
       {
-        "plan": "heroku-mongolab"
+        "plan": "heroku-mongodb"
       }
     ]
   }
