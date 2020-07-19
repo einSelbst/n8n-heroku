@@ -54,8 +54,10 @@
     },
     "addons": [
       {
-        "plan": "mongolab",
-        "as": "MONGO"
+        "plan": "heroku-postgresql",
+        "options": {
+          "version": "11"
+        }
       }
     ]
   }
