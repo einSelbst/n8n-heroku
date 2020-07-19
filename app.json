@@ -54,7 +54,7 @@
     },
     "addons": [
       {
-        "plan": "mongolab:shared-single-small",
+        "plan": "mongolab",
         "as": "MONGO"
       }
     ]
