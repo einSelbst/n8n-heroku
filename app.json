@@ -22,39 +22,40 @@
       },
       "N8N_BASIC_AUTH_USER": {
         "description": "Basic Authentication User for n8n",
-        "value": "user"
+        "value": "kollect-user"
       },
       "N8N_BASIC_AUTH_PASSWORD": {
         "description": "Basic Authentication Password to secure n8n.",
-        "value": "5*jePabm$RF#FMcW!6FiA!eb"
+        "value": "REPLACE_ME"
       },
       "N8N_HOST": {
         "description": "the name of your APP. Use the App name on this screen",
-        "value": "Kollect-n8n"
+        "value": "REPLACE_ME"
       },
       "WEBHOOK_TUNNEL_URL": {
         "description": "to correctly use webhooks, replace YOUR_APP_NAME below",
-        "value": "Kollect-n8n"
+        "value": "REPLACE_ME"
       },
       "VUE_APP_URL_BASE_API": {
         "description": "communication between the front end and api, replace YOUR_APP_NAME below ",
-        "value": "Kollect-n8n"
+        "value": "REPLACE_ME"
       },
       "N8N_ENCRYPTION_KEY": {
         "description": "Specify a random string. When Heroku free plans timeout, the encryption key can cause issues with credentials. Keep this randomstring or use another random string ",
-        "value": "qn$5%N58#8bCZ9AHiJDGKV&6"
+        "value": "REPLACE_ME"
       }
       
     },
     "formation": {
       "web": {
         "quantity": 1,
-        "size": "standard"
+        "size": "standard-1x"
       }
     },
     "addons": [
       {
-        "plan": "mongolab"
+        "plan": "mongolab:shared-single-small",
+        "as": "MONGO"
       }
     ]
   }
